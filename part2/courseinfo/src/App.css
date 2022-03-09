@@ -36,15 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.success{
-  color: green;
-  border: 1px solid green;
-  padding: 10px;
-}
-
-.error{
-  color: red;
-  border: 1px solid red;
-  padding: 10px;
-}
