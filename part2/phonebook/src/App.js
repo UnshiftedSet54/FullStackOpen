@@ -15,7 +15,13 @@ const App = () => {
   const [ errorMessage, setErrorMessage ] = useState({mdg: '', error: false})
 
   useEffect(() => {
-    db.getPersons().then(data => setPersons(data))
+    db.getPersons().then(data => setPersons(data)).catch(error => {
+      setErrorMessage({msg: error.message, error: true})
+        setTimeout(() => {
+          setErrorMessage({msg: '', error: false})
+          window.location.reload()
+        }, 5000)
+    })
   },[])
 
   const handleSearch = (event) => {
@@ -45,7 +51,7 @@ const App = () => {
       })
       .catch(error => {
         if(error.response.status === 404){
-          setErrorMessage({msg: `${newName} already deleted from the server.`, error: true})
+          setErrorMessage({msg: error.message, error: true})
           setTimeout(() => {
             setErrorMessage({msg: '', error: false})
             window.location.reload()
@@ -66,6 +72,13 @@ const App = () => {
           setErrorMessage({msg: '', error: false})
         }, 5000)
       })
+      .catch(error => {
+        setErrorMessage({msg: error.message, error: true})
+          setTimeout(() => {
+            setErrorMessage({msg: '', error: false})
+            window.location.reload()
+          }, 5000)
+      })
     }
   }
 
@@ -82,6 +95,13 @@ const App = () => {
     }) 
     if(window.confirm(`Delete ${deletedPerson}?`)) db.deletePerson(id).then(() => {
       setPersons(updatedPersons)
+    })
+    .catch(error => {
+      setErrorMessage({msg: error.message, error: true})
+        setTimeout(() => {
+          setErrorMessage({msg: '', error: false})
+          window.location.reload()
+        }, 5000)
     })
   }
 
